@@ -15,12 +15,12 @@ Antes de empezar, asegúrate de tener lo siguiente:
 
 1. Clona este repositorio en tu máquina local:
     ```bash
-    git clone https://github.com/tu-usuario/nombre-del-repositorio.git
+    git clone https://github.com/serbrigue/Subida-fotos-Google-drive
     ```
 
 2. Navega al directorio del proyecto:
     ```bash
-    cd nombre-del-repositorio
+    cd Subida-fotos-Google-drive
     ```
 
 3. Instala las dependencias:
