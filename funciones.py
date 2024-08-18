@@ -69,12 +69,27 @@ def crear_carpeta(servicio, nombre_carpeta):
         print(f"Error al crear la carpeta: {e}")
         raise
 
+def archivo_existe(servicio, nombre_archivo, id_carpeta):
+    """Verifica si un archivo ya existe en una carpeta."""
+    try:
+        consulta = f"name='{nombre_archivo}' and '{id_carpeta}' in parents and trashed=false"
+        respuesta = servicio.files().list(q=consulta, fields="files(id, name)").execute()
+        archivos = respuesta.get('files', [])
+        return bool(archivos)
+    except Exception as e:
+        print(f"Error al verificar si el archivo existe: {e}")
+        raise
+
 def subir_archivo(servicio, directorio, id_carpeta):
     """Sube archivos desde un directorio a Google Drive en la carpeta especificada."""
     try:
         for archivo_nombre in os.listdir(directorio):
             archivo_ruta = os.path.join(directorio, archivo_nombre)
             if os.path.isfile(archivo_ruta):
+                if archivo_existe(servicio, archivo_nombre, id_carpeta):
+                    print(f"El archivo '{archivo_nombre}' ya existe en la carpeta.")
+                    continue
+                
                 metadatos_archivo = {
                     'name': archivo_nombre,
                     'parents': [id_carpeta]
